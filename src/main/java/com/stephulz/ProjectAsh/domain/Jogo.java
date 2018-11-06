@@ -5,15 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,7 +35,7 @@ public class Jogo implements Serializable {
 	
 	private String desenvolvedora;
 	
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date dataLancamento;
 	
 	private Double preco;
@@ -48,32 +49,54 @@ public class Jogo implements Serializable {
 	private String compatControle;
 
 	@JsonIgnore
-	@OneToMany
+	@ManyToMany(cascade=CascadeType.ALL )
 	@JoinTable(name = "JOGO_CDKEY",
 	joinColumns = @JoinColumn(name = "jogo_id"),
 	inverseJoinColumns = @JoinColumn(name = "cdkey_id"))
 	private List<Cdkey> cdkeys = new ArrayList<>();
 	
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "JOGO_GENERO",
 	joinColumns = @JoinColumn(name = "jogo_id"),
 	inverseJoinColumns = @JoinColumn(name = "genero_id"))
-	@Column(name = "genero_id")
-	private List<Genero> generos = new ArrayList<>();
+	private List<Genero> generos =  new ArrayList<>();
 	
 	public Jogo(){
 		
 	}
 	
-	public Jogo(Integer id, String nome, Double preco) {
+
+	public Jogo(Integer id, String nome, String desenvolvedora, Date dataLancamento, Double preco, String descricao,
+			String plataforma, String quantJogadores, String compatControle) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.desenvolvedora = desenvolvedora;
+		this.dataLancamento = dataLancamento;
 		this.preco = preco;
+		this.descricao = descricao;
+		this.plataforma = plataforma;
+		this.quantJogadores = quantJogadores;
+		this.compatControle = compatControle;
 	}
-	
-	
+
+	public Jogo(Integer id, String nome, String desenvolvedora, Date dataLancamento, Double preco, String descricao,
+			String plataforma, String quantJogadores, String compatControle, List<Cdkey> cdkeys, List<Genero> generos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.desenvolvedora = desenvolvedora;
+		this.dataLancamento = dataLancamento;
+		this.preco = preco;
+		this.descricao = descricao;
+		this.plataforma = plataforma;
+		this.quantJogadores = quantJogadores;
+		this.compatControle = compatControle;
+		this.cdkeys = cdkeys;
+		this.generos = generos;
+	}
+
 	public String getDesenvolvedora() {
 		return desenvolvedora;
 	}

@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Cdkey implements Serializable {
@@ -24,7 +24,7 @@ public class Cdkey implements Serializable {
 	
 	private String cdkey;
 	
-	@OneToMany(mappedBy="cdkeys")
+	@ManyToMany(mappedBy="cdkeys")
 	private List<Jogo> jogos = new ArrayList<>();
 
 	public Cdkey() {
