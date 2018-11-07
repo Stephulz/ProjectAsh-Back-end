@@ -21,15 +21,6 @@ public class Genero implements Serializable {
 	
 	private String nome;
 	
-	/*
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "JOGO_GENERO",
-	joinColumns = @JoinColumn(name = "genero_id"),
-	inverseJoinColumns = @JoinColumn(name = "jogo_id"))
-	private List<Jogo> jogos ;
-	*/
-	
 	public Genero() {
 		
 	}

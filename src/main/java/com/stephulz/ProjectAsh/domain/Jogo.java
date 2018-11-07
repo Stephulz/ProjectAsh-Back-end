@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,7 +35,7 @@ public class Jogo implements Serializable {
 	
 	private String desenvolvedora;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date dataLancamento;
 	
 	private Double preco;
@@ -47,6 +47,8 @@ public class Jogo implements Serializable {
 	private String quantJogadores;
 	
 	private String compatControle;
+	
+	private String urlImagem;
 
 	@JsonIgnore
 	@ManyToMany(cascade=CascadeType.ALL )
@@ -54,18 +56,24 @@ public class Jogo implements Serializable {
 	joinColumns = @JoinColumn(name = "jogo_id"),
 	inverseJoinColumns = @JoinColumn(name = "cdkey_id"))
 	private List<Cdkey> cdkeys = new ArrayList<>();
-	
+
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "JOGO_GENERO",
-	joinColumns = @JoinColumn(name = "jogo_id"),
-	inverseJoinColumns = @JoinColumn(name = "genero_id"))
-	private List<Genero> generos =  new ArrayList<>();
-	
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "genero_id", nullable = false)
+	private Genero genero;
+
+
+	public Genero getGenero() {
+		return genero;
+	}
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
+	}
+
 	public Jogo(){
 		
 	}
-	
 
 	public Jogo(Integer id, String nome, String desenvolvedora, Date dataLancamento, Double preco, String descricao,
 			String plataforma, String quantJogadores, String compatControle) {
@@ -82,7 +90,7 @@ public class Jogo implements Serializable {
 	}
 
 	public Jogo(Integer id, String nome, String desenvolvedora, Date dataLancamento, Double preco, String descricao,
-			String plataforma, String quantJogadores, String compatControle, List<Cdkey> cdkeys, List<Genero> generos) {
+			String plataforma, String quantJogadores, String compatControle, List<Cdkey> cdkeys, Genero genero) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -94,7 +102,26 @@ public class Jogo implements Serializable {
 		this.quantJogadores = quantJogadores;
 		this.compatControle = compatControle;
 		this.cdkeys = cdkeys;
-		this.generos = generos;
+		this.genero = genero;
+	}
+	
+	public String getUrlImagem() {
+		return urlImagem;
+	}
+
+
+	public void setUrlImagem(String urlImagem) {
+		this.urlImagem = urlImagem;
+	}
+
+
+	public List<Cdkey> getCdkeys() {
+		return cdkeys;
+	}
+
+
+	public void setCdkeys(List<Cdkey> cdkeys) {
+		this.cdkeys = cdkeys;
 	}
 
 	public String getDesenvolvedora() {
@@ -175,13 +202,5 @@ public class Jogo implements Serializable {
 
 	public void setCdKeys(List<Cdkey> cdKeys) {
 		this.cdkeys = cdKeys;
-	}
-
-	public List<Genero> getGeneros() {
-		return generos;
-	}
-
-	public void setGeneros(List<Genero> generos) {
-		this.generos = generos;
 	}
 }

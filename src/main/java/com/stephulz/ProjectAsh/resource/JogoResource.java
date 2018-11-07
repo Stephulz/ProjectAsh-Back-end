@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.stephulz.ProjectAsh.domain.Jogo;
 import com.stephulz.ProjectAsh.dto.JogoDTO;
+import com.stephulz.ProjectAsh.repositories.GeneroRepository;
+import com.stephulz.ProjectAsh.repositories.JogoRepository;
 import com.stephulz.ProjectAsh.service.JogoService;
+import com.stephulz.ProjectAsh.service.exception.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/jogos")
@@ -28,12 +32,42 @@ public class JogoResource {
 	
 	@Autowired
 	private JogoService service;
+	
+	@Autowired
+	private JogoRepository jogoRepository;
+	
+	@Autowired
+	private GeneroRepository generoRepository;
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Jogo> find(@PathVariable Integer id) {
 		Jogo obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	//NON NELIO MATERIAL ~ START
+	@PostMapping(value="/generos/{generoId}")
+    public Jogo createJogo(@PathVariable (value = "generoId") Integer generoId,
+                                 @Valid @RequestBody Jogo jogo) {
+        return generoRepository.findById(generoId).map(genero -> {
+            jogo.setGenero(genero);
+            return jogoRepository.save(jogo);
+        }).orElseThrow(() -> new ObjectNotFoundException("GeneroId " + generoId + " not found"));
+    }
+	//NON NELIO MATERIAL ~ END
+	
+	/*
+	//NON NELIO MATERIAL ~ START
+	@RequestMapping(value="/generos/{generoId}", method=RequestMethod.POST)
+    public Jogo createJogo(@PathVariable (value = "generoId") Integer generoId,
+                                 @Valid @RequestBody Jogo jogo) {
+        return generoRepository.findById(generoId).map(genero -> {
+            jogo.setGenero(genero);
+            return jogoRepository.save(jogo);
+        }).orElseThrow(() -> new ObjectNotFoundException("PostId " + generoId + " not found"));
+    }
+	//NON NELIO MATERIAL ~ END
+	*/
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody JogoDTO objDto){
