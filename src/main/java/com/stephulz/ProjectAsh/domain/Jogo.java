@@ -35,7 +35,7 @@ public class Jogo implements Serializable {
 	
 	private String desenvolvedora;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date dataLancamento;
 	
 	private Double preco;

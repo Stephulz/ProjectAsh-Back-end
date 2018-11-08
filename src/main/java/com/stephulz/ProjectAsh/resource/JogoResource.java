@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,8 @@ import com.stephulz.ProjectAsh.service.JogoService;
 import com.stephulz.ProjectAsh.service.exception.ObjectNotFoundException;
 
 @RestController
-@RequestMapping(value="/jogos")
+@RequestMapping(value="api/jogos")
+@CrossOrigin(origins = "*")
 public class JogoResource {
 	
 	
@@ -46,7 +48,8 @@ public class JogoResource {
 	}
 	
 	//NON NELIO MATERIAL ~ START
-	@PostMapping(value="/generos/{generoId}")
+	// api/jogos/generos/generoid
+	@PostMapping(value="generos/{generoId}")
     public Jogo createJogo(@PathVariable (value = "generoId") Integer generoId,
                                  @Valid @RequestBody Jogo jogo) {
         return generoRepository.findById(generoId).map(genero -> {
