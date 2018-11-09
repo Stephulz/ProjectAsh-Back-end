@@ -1,84 +1,66 @@
 package com.stephulz.ProjectAsh.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Jogo implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer jogoId;
+
 	private String nome;
-	
+
 	private String desenvolvedora;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date dataLancamento;
-	
+
 	private Double preco;
-	
+
 	private String descricao;
-	
+
 	private String plataforma;
-	
+
 	private String quantJogadores;
-	
+
 	private String compatControle;
-	
+
 	private String urlImagem;
 
-	@JsonIgnore
-	@ManyToMany(cascade=CascadeType.ALL )
-	@JoinTable(name = "JOGO_CDKEY",
-	joinColumns = @JoinColumn(name = "jogo_id"),
-	inverseJoinColumns = @JoinColumn(name = "cdkey_id"))
-	private List<Cdkey> cdkeys = new ArrayList<>();
+	@OneToMany(mappedBy = "jogo")
+	private List<Cdkey> cdkey;
 
-	@JsonIgnore
+	// @JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "genero_id", nullable = false)
 	private Genero genero;
-
-
-	public Genero getGenero() {
-		return genero;
-	}
-
-	public void setGenero(Genero genero) {
-		this.genero = genero;
-	}
-
-	public Jogo(){
+	
+	public Jogo() {
 		
 	}
 
-	public Jogo(Integer id, String nome, String desenvolvedora, Date dataLancamento, Double preco, String descricao,
-			String plataforma, String quantJogadores, String compatControle) {
-		super();
-		this.id = id;
+	public Jogo(Integer id, String nome, String desenvolvedora, Date dataLancamento, Double preco,
+			String descricao, String plataforma, String quantJogadores, String compatControle, String urlImagem) {
+		this.jogoId = id;
 		this.nome = nome;
 		this.desenvolvedora = desenvolvedora;
 		this.dataLancamento = dataLancamento;
@@ -87,41 +69,25 @@ public class Jogo implements Serializable {
 		this.plataforma = plataforma;
 		this.quantJogadores = quantJogadores;
 		this.compatControle = compatControle;
-	}
-
-	public Jogo(Integer id, String nome, String desenvolvedora, Date dataLancamento, Double preco, String descricao,
-			String plataforma, String quantJogadores, String compatControle, List<Cdkey> cdkeys, Genero genero) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.desenvolvedora = desenvolvedora;
-		this.dataLancamento = dataLancamento;
-		this.preco = preco;
-		this.descricao = descricao;
-		this.plataforma = plataforma;
-		this.quantJogadores = quantJogadores;
-		this.compatControle = compatControle;
-		this.cdkeys = cdkeys;
+		this.urlImagem = urlImagem;
+		this.cdkey = cdkey;
 		this.genero = genero;
 	}
-	
-	public String getUrlImagem() {
-		return urlImagem;
+
+	public Integer getJogoId() {
+		return jogoId;
 	}
 
-
-	public void setUrlImagem(String urlImagem) {
-		this.urlImagem = urlImagem;
+	public void setJogoId(Integer jogoId) {
+		this.jogoId = jogoId;
 	}
 
-
-	public List<Cdkey> getCdkeys() {
-		return cdkeys;
+	public String getNome() {
+		return nome;
 	}
 
-
-	public void setCdkeys(List<Cdkey> cdkeys) {
-		this.cdkeys = cdkeys;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getDesenvolvedora() {
@@ -138,6 +104,14 @@ public class Jogo implements Serializable {
 
 	public void setDataLancamento(Date dataLancamento) {
 		this.dataLancamento = dataLancamento;
+	}
+
+	public Double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Double preco) {
+		this.preco = preco;
 	}
 
 	public String getDescricao() {
@@ -172,35 +146,27 @@ public class Jogo implements Serializable {
 		this.compatControle = compatControle;
 	}
 
-	public Integer getId() {
-		return id;
+	public String getUrlImagem() {
+		return urlImagem;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUrlImagem(String urlImagem) {
+		this.urlImagem = urlImagem;
 	}
 
-	public String getNome() {
-		return nome;
+	public List<Cdkey> getCdkey() {
+		return cdkey;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setCdkey(List<Cdkey> cdkey) {
+		this.cdkey = cdkey;
 	}
 
-	public Double getPreco() {
-		return preco;
+	public Genero getGenero() {
+		return genero;
 	}
 
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
-
-	public List<Cdkey> getCdKeys() {
-		return cdkeys;
-	}
-
-	public void setCdKeys(List<Cdkey> cdKeys) {
-		this.cdkeys = cdKeys;
+	public void setGenero(Genero genero) {
+		this.genero = genero;
 	}
 }

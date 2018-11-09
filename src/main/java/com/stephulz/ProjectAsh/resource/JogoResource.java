@@ -41,6 +41,7 @@ public class JogoResource {
 	@Autowired
 	private GeneroRepository generoRepository;
 
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Jogo> find(@PathVariable Integer id) {
 		Jogo obj = service.find(id);
@@ -77,14 +78,14 @@ public class JogoResource {
 		Jogo obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+				.path("/{id}").buildAndExpand(obj.getJogoId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody JogoDTO objDto, @PathVariable Integer id){
 		Jogo obj = service.fromDTO(objDto);
-		obj.setId(id);
+		obj.setJogoId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}

@@ -34,7 +34,7 @@ public class JogoService {
 	}
 	
 	public Jogo insert(Jogo obj) {
-		obj.setId(null);
+		obj.setJogoId(null);
 		
 		
 //		for (Genero gen : obj.getGeneros()) { 
@@ -46,7 +46,7 @@ public class JogoService {
 	}
 	
 	public Jogo update(Jogo obj) {
-		Jogo newObj = find(obj.getId());
+		Jogo newObj = find(obj.getJogoId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
@@ -73,7 +73,7 @@ public class JogoService {
 	public Jogo fromDTO(JogoDTO objDto) {
 		return new Jogo(objDto.getId(), objDto.getNome(), objDto.getDesenvolvedora(), objDto.getDataLancamento(),
 				objDto.getPreco(), objDto.getDescricao(), objDto.getPlataforma(), objDto.getQuantJogadores(),
-				objDto.getCompatControle());
+				objDto.getCompatControle(), objDto.getUrlImagem());
 	}
 	
 	private void updateData(Jogo newObj, Jogo obj) {

@@ -1,7 +1,6 @@
 package com.stephulz.ProjectAsh.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,25 +16,25 @@ public class JogoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	
+
 	private String nome;
 
 	private String desenvolvedora;
-	
+
 	private Date dataLancamento;
-	
+
 	private Double preco;
-	
+
 	private String descricao;
-	
+
 	private String plataforma;
-	
+
 	private String quantJogadores;
-	
+
 	private String compatControle;
-	
+
 	private String urlImagem;
-	
+
 	public String getUrlImagem() {
 		return urlImagem;
 	}
@@ -44,16 +43,16 @@ public class JogoDTO implements Serializable {
 		this.urlImagem = urlImagem;
 	}
 
-	private List<Cdkey> cdKeys = new ArrayList<>();
-	
+	private List<Cdkey> cdKeys;
+
 	private Genero genero;
-	
+
 	public JogoDTO() {
-		
+
 	}
 
 	public JogoDTO(Jogo obj) {
-		id = obj.getId();
+		id = obj.getJogoId();
 		nome = obj.getNome();
 		desenvolvedora = obj.getDesenvolvedora();
 		dataLancamento = obj.getDataLancamento();
@@ -62,15 +61,11 @@ public class JogoDTO implements Serializable {
 		plataforma = obj.getPlataforma();
 		quantJogadores = obj.getQuantJogadores();
 		compatControle = obj.getCompatControle();
-		cdKeys = obj.getCdKeys();
+		cdKeys = obj.getCdkey();
 		genero = obj.getGenero();
 		urlImagem = obj.getUrlImagem();
 	}
 
-
-	public List<Cdkey> getCdKeys() {
-		return cdKeys;
-	}
 
 
 	public Genero getGenero() {
@@ -79,10 +74,6 @@ public class JogoDTO implements Serializable {
 
 	public void setGenero(Genero genero) {
 		this.genero = genero;
-	}
-
-	public void setCdKeys(List<Cdkey> cdKeys) {
-		this.cdKeys = cdKeys;
 	}
 
 	public Integer getId() {
@@ -155,5 +146,13 @@ public class JogoDTO implements Serializable {
 
 	public void setCompatControle(String compatControle) {
 		this.compatControle = compatControle;
+	}
+
+	public List<Cdkey> getCdKeys() {
+		return cdKeys;
+	}
+
+	public void setCdKeys(List<Cdkey> cdKeys) {
+		this.cdKeys = cdKeys;
 	}
 }
