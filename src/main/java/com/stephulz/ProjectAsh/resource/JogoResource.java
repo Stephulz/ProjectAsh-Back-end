@@ -60,8 +60,18 @@ public class JogoResource {
     }
 	//NON NELIO MATERIAL ~ END
 	
+	@RequestMapping(value="/{id}/generos/{generoId}", method=RequestMethod.PUT)
+	public Jogo updateJogo(@Valid @RequestBody JogoDTO objDto, @PathVariable Integer id, 
+			@PathVariable (value = "generoId") Integer generoId){
+		Jogo obj = service.fromDTO(objDto);
+		obj.setJogoId(id);
+		return generoRepository.findById(generoId).map(genero -> {
+            obj.setGenero(genero);
+    		return service.update(obj, genero);
+        }).orElseThrow(() -> new ObjectNotFoundException("GeneroId " + generoId + " not found"));
+	}
+	
 	/*
-	//NON NELIO MATERIAL ~ START
 	@RequestMapping(value="/generos/{generoId}", method=RequestMethod.POST)
     public Jogo createJogo(@PathVariable (value = "generoId") Integer generoId,
                                  @Valid @RequestBody Jogo jogo) {
@@ -70,7 +80,6 @@ public class JogoResource {
             return jogoRepository.save(jogo);
         }).orElseThrow(() -> new ObjectNotFoundException("PostId " + generoId + " not found"));
     }
-	//NON NELIO MATERIAL ~ END
 	*/
 	
 	@RequestMapping(method=RequestMethod.POST)
@@ -81,14 +90,14 @@ public class JogoResource {
 				.path("/{id}").buildAndExpand(obj.getJogoId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+	/*
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody JogoDTO objDto, @PathVariable Integer id){
 		Jogo obj = service.fromDTO(objDto);
 		obj.setJogoId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
-	}
+	}*/
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete (@PathVariable Integer id){

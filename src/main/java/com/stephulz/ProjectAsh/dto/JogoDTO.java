@@ -15,7 +15,7 @@ public class JogoDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	private Integer jogoId;
 
 	private String nome;
 
@@ -35,14 +35,6 @@ public class JogoDTO implements Serializable {
 
 	private String urlImagem;
 
-	public String getUrlImagem() {
-		return urlImagem;
-	}
-
-	public void setUrlImagem(String urlImagem) {
-		this.urlImagem = urlImagem;
-	}
-
 	private List<Cdkey> cdKeys;
 
 	private Genero genero;
@@ -52,7 +44,7 @@ public class JogoDTO implements Serializable {
 	}
 
 	public JogoDTO(Jogo obj) {
-		id = obj.getJogoId();
+		jogoId = obj.getJogoId();
 		nome = obj.getNome();
 		desenvolvedora = obj.getDesenvolvedora();
 		dataLancamento = obj.getDataLancamento();
@@ -61,27 +53,17 @@ public class JogoDTO implements Serializable {
 		plataforma = obj.getPlataforma();
 		quantJogadores = obj.getQuantJogadores();
 		compatControle = obj.getCompatControle();
+		urlImagem = obj.getUrlImagem();
 		cdKeys = obj.getCdkey();
 		genero = obj.getGenero();
-		urlImagem = obj.getUrlImagem();
 	}
 
-
-
-	public Genero getGenero() {
-		return genero;
+	public Integer getJogoId() {
+		return jogoId;
 	}
 
-	public void setGenero(Genero genero) {
-		this.genero = genero;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	public void setJogoId(Integer jogoId) {
+		this.jogoId = jogoId;
 	}
 
 	public String getNome() {
@@ -148,11 +130,27 @@ public class JogoDTO implements Serializable {
 		this.compatControle = compatControle;
 	}
 
+	public String getUrlImagem() {
+		return urlImagem;
+	}
+
+	public void setUrlImagem(String urlImagem) {
+		this.urlImagem = urlImagem;
+	}
+
 	public List<Cdkey> getCdKeys() {
 		return cdKeys;
 	}
 
 	public void setCdKeys(List<Cdkey> cdKeys) {
 		this.cdKeys = cdKeys;
+	}
+
+	public Genero getGenero() {
+		return genero;
+	}
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
 	}
 }

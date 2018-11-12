@@ -45,8 +45,9 @@ public class JogoService {
 		return repo.save(obj);
 	}
 	
-	public Jogo update(Jogo obj) {
+	public Jogo update(Jogo obj, Genero generoId) {
 		Jogo newObj = find(obj.getJogoId());
+		newObj.setGenero(generoId);
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
@@ -71,7 +72,7 @@ public class JogoService {
 	}
 	
 	public Jogo fromDTO(JogoDTO objDto) {
-		return new Jogo(objDto.getId(), objDto.getNome(), objDto.getDesenvolvedora(), objDto.getDataLancamento(),
+		return new Jogo(objDto.getJogoId(), objDto.getNome(), objDto.getDesenvolvedora(), objDto.getDataLancamento(),
 				objDto.getPreco(), objDto.getDescricao(), objDto.getPlataforma(), objDto.getQuantJogadores(),
 				objDto.getCompatControle(), objDto.getUrlImagem());
 	}
@@ -86,6 +87,7 @@ public class JogoService {
 		newObj.setPlataforma(obj.getPlataforma());
 		newObj.setQuantJogadores(obj.getQuantJogadores());
 		newObj.setCompatControle(obj.getCompatControle());
-		
+		newObj.setDesenvolvedora(obj.getDesenvolvedora());
+		newObj.setUrlImagem(obj.getUrlImagem());
 	}
 }
