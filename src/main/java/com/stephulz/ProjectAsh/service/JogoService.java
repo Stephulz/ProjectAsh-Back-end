@@ -34,14 +34,7 @@ public class JogoService {
 	}
 	
 	public Jogo insert(Jogo obj) {
-		obj.setJogoId(null);
-		
-		
-//		for (Genero gen : obj.getGeneros()) { 
-//			gen.set(jogoService.find(gen.getId()).getNome());
-			
-//		}
-		
+		obj.setJogoId(null);		
 		return repo.save(obj);
 	}
 	
@@ -50,6 +43,11 @@ public class JogoService {
 		newObj.setGenero(generoId);
 		updateData(newObj, obj);
 		return repo.save(newObj);
+	}
+	
+	public Page<Jogo> search(String nome,Integer page, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findDistinctByNome(nome, pageRequest);		
 	}
 	
 	public void delete(Integer id) {

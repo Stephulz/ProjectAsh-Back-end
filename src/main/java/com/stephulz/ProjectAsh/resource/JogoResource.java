@@ -23,6 +23,7 @@ import com.stephulz.ProjectAsh.domain.Jogo;
 import com.stephulz.ProjectAsh.dto.JogoDTO;
 import com.stephulz.ProjectAsh.repositories.GeneroRepository;
 import com.stephulz.ProjectAsh.repositories.JogoRepository;
+import com.stephulz.ProjectAsh.resources.utils.URL;
 import com.stephulz.ProjectAsh.service.JogoService;
 import com.stephulz.ProjectAsh.service.exception.ObjectNotFoundException;
 
@@ -112,16 +113,18 @@ public class JogoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@RequestMapping(value="/page",method=RequestMethod.GET)
+	
+	@RequestMapping(value="/search",method=RequestMethod.GET)
 	public ResponseEntity<Page<JogoDTO>> findPage(
+			@RequestParam(value="nome", defaultValue="") String nome,
 			@RequestParam(value="page", defaultValue="0") Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
 			@RequestParam(value="oderBy", defaultValue="nome") String orderBy,
-			@RequestParam(value="direction", defaultValue="ASC") String direction) 
-	{
-		Page<Jogo> list = service.findPage(page, linesPerPage, orderBy, direction);
+			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+		String nomeDecoded = URL.decodeParam(nome);
+		Page<Jogo> list = service.search(nomeDecoded, page, linesPerPage, orderBy, direction);
 		Page<JogoDTO> listDto = list.map(obj -> new JogoDTO(obj));
 		return ResponseEntity.ok().body(listDto);
-	}	
+	}
 	
 }

@@ -54,6 +54,12 @@
     <artifactId>jackson-datatype-jsr310</artifactId>
     <version>${jackson.version}</version>
 </dependency>
+
+ <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+  </dependency>
+
 	</dependencies>
 
 	<build>
