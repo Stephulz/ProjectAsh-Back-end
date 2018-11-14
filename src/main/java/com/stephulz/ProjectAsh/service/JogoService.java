@@ -50,6 +50,11 @@ public class JogoService {
 		return repo.findDistinctByNome(nome, pageRequest);		
 	}
 	
+	public Page<Jogo> selectByGenero(Integer genero,Integer page, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findDistinctByGenero(genero, pageRequest);		
+	}
+	
 	public void delete(Integer id) {
 		find(id);
 		try {

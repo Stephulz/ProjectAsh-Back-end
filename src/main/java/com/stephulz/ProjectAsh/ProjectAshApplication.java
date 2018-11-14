@@ -22,11 +22,5 @@ public class ProjectAshApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		Genero cat0 = new Genero(null, "Aventura");
-		Genero cat1 = new Genero(null, "Luta");
-		Genero cat2 = new Genero(null, "FPS");
-		Genero cat3 = new Genero(null, "RPG");
-		Genero cat4 = new Genero(null, "MMO");
-		
 	}
 }

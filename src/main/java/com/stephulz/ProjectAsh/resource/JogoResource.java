@@ -127,4 +127,17 @@ public class JogoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
+	@RequestMapping(value="/search/genero",method=RequestMethod.GET)
+	public ResponseEntity<Page<JogoDTO>> findJogoByGenero(
+			@RequestParam(value="genero", defaultValue="") Integer genero,
+			@RequestParam(value="page", defaultValue="0") Integer page,
+			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
+			@RequestParam(value="oderBy", defaultValue="nome") String orderBy,
+			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+		//Integer generoDecoded = URL.decodeParam(genero);
+		Page<Jogo> list = service.selectByGenero(genero, page, linesPerPage, orderBy, direction);
+		Page<JogoDTO> listDto = list.map(obj -> new JogoDTO(obj));
+		return ResponseEntity.ok().body(listDto);
+	}
+	
 }
